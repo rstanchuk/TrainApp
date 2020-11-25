@@ -17,7 +17,7 @@
 			  <div class="card-header">
 			  	<div class="row">
 			  		<div class="col"><h3>Welcome</h3><h5>${FirstName} ${LastName}</h5></div>
-			  		<div class="col"><a href="Logout" class="btn btn-link" style="float: right; margin-top: 15px">Log Out</a></div>
+			  		<div class="col"><a href="Elogout" class="btn btn-link" style="float: right; margin-top: 15px">Log Out</a></div>
 			  	</div>
 			    
 			  </div>

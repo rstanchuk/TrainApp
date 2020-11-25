@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import trainapp.customer.Customer;
+import trainapp.customer.dao.CustomerDAO;
+import trainapp.customer.dao.CustomerDAOimpl;
+import trainapp.forum.SupportTicket;
 
 @WebServlet("/Session")
 public class Session extends HttpServlet {
@@ -31,6 +35,11 @@ public class Session extends HttpServlet {
 		request.setAttribute("UserName", customer.getUserName());
 		request.setAttribute("Email", customer.getEmail());
 		request.setAttribute("Discount", customer.getDiscount());
+		
+		CustomerDAO cd = new CustomerDAOimpl();
+		
+		SupportTicket[] tickets = cd.getSupportTickets(customer.getUserName());
+		session.setAttribute("tickets", tickets);
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/CustomerViews/session.jsp");

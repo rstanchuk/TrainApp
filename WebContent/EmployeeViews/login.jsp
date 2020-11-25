@@ -29,6 +29,7 @@
 			<div class="col"><a href="Eregister" class="btn btn-link" style="margin-top: 5px; margin-left: 60px">Employee Registration</a></div>
 	  	</div>
 	</form>
+	<div style="margin-top: 20px; text-align: center"><a href="Login" class="btn btn-link">Customer Site</a></div>
 
 </body>
 </html>

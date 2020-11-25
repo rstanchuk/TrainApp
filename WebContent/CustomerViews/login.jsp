@@ -12,7 +12,7 @@
 <body>
 
 
-	<form class="col-lg-3 mx-auto" style="margin-top: 50px" action="Login" method="post">
+	<form class="col-lg-5 mx-auto" style="margin-top: 50px" action="Login" method="post">
 		<div class="row">
 			<div class="col"><h3>Login Page</h3></div>
 			<div class="col"><p style="color:red; margin-top: 5px">${message}</p></div>
@@ -27,7 +27,7 @@
 	  	</div>
 	  	<div class="row form-group">
 	  		<div class="col"><input type="submit" class="btn btn-primary" name="submit" value="Login"></div>
-			<div class="col"><a href="Register" class="btn btn-link" style="margin-left: 60px">Registration</a></div>
+			<div class="col"><a href="Register" class="btn btn-link" style="margin-top: 5px; margin-left: 60px">Customer Registration</a></div>
 	  	</div>
 	</form>
 	<div style="margin-top: 20px; text-align: center"><a href="Elogin" class="btn btn-link">Employee Site</a></div>

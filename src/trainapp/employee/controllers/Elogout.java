@@ -1,4 +1,4 @@
-package trainapp.customer.controllers;
+package trainapp.employee.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,12 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-@WebServlet("/Logout")
-public class Logout extends HttpServlet {
+@WebServlet("/Elogout")
+public class Elogout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Logout() {
+    public Elogout() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -22,7 +21,7 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if(session != null)
 		    session.invalidate();
-		response.sendRedirect("/TrainApp/Login");
+		response.sendRedirect("/TrainApp/Elogin");
 	}
 
 }

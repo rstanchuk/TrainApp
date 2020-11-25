@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 
 import trainapp.connection.ConnectionProvider;
 import trainapp.customer.Customer;
+import trainapp.forum.SupportTicket;
 
 public class CustomerDAOimpl implements CustomerDAO {
 	static Connection con;
@@ -96,6 +97,54 @@ public class CustomerDAOimpl implements CustomerDAO {
 		
 		
 		return false;
+	}
+	
+	@Override
+	public SupportTicket[] getSupportTickets(String username) {
+		SupportTicket[] tickets = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from SupportTicket where userName=?;");
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			int ticketCount = 0;
+			while(rs.next()) {
+				ticketCount = rs.getInt(1);
+			}
+			
+			try {
+				tickets = new SupportTicket[ticketCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from SupportTicket where userName=?;");
+				ps.setString(1, username);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					SupportTicket st = new SupportTicket();
+					st.setSupportTicketID(rs.getInt(1));
+					st.setUserName(rs.getString(2));
+					st.setTitle(rs.getString(3));
+					st.setBody(rs.getString(4));
+					
+					tickets[index] = st;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		return tickets;
 	}
 
 }
