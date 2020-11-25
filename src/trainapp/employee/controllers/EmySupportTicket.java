@@ -1,4 +1,4 @@
-package trainapp.customer.controllers;
+package trainapp.employee.controllers;
 
 import java.io.IOException;
 
@@ -10,22 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import trainapp.customer.Customer;
-import trainapp.customer.dao.CustomerDAO;
-import trainapp.customer.dao.CustomerDAOimpl;
+import trainapp.employee.Employee;
+import trainapp.employee.dao.EmployeeDAO;
+import trainapp.employee.dao.EmployeeDAOimpl;
 import trainapp.forum.Message;
 import trainapp.forum.SupportTicket;
 
-@WebServlet("/MySupportTicket")
-public class MySupportTicket extends HttpServlet {
+@WebServlet("/EmySupportTicket")
+public class EmySupportTicket extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public MySupportTicket() {
+    public EmySupportTicket() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sesh = request.getSession();
 		SupportTicket ticket = (SupportTicket) sesh.getAttribute("ticket");
 		
@@ -34,20 +34,20 @@ public class MySupportTicket extends HttpServlet {
 		request.setAttribute("title", ticket.getTitle());
 		request.setAttribute("body", ticket.getBody());
 		
-		CustomerDAO cd = new CustomerDAOimpl();
+		EmployeeDAO cd = new EmployeeDAOimpl();
 		Message[] messages = cd.getMessages(ticket.getSupportTicketID());
 		sesh.setAttribute("messages", messages);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/CustomerViews/supportticket.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeViews/supportticket.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sesh = request.getSession();
-		Customer customer = (Customer) sesh.getAttribute("Customer");
+		Employee employee = (Employee) sesh.getAttribute("Employee");
 		SupportTicket ticket = (SupportTicket) sesh.getAttribute("ticket");
 		
-		CustomerDAO cd = new CustomerDAOimpl();
+		EmployeeDAO ed = new EmployeeDAOimpl();
 		String body = request.getParameter("body");
 		
 		if(body.isBlank()) {
@@ -56,24 +56,24 @@ public class MySupportTicket extends HttpServlet {
 			request.setAttribute("title", ticket.getTitle());
 			request.setAttribute("body", ticket.getBody());
 			request.setAttribute("message", "Your message is empty!");
-			request.getRequestDispatcher("/CustomerViews/supportticket.jsp").forward(request, response);
+			request.getRequestDispatcher("/EmployeeViews/supportticket.jsp").forward(request, response);
 		} else {
 			Message msg = new Message();
 			msg.setSupportTicketID(ticket.getSupportTicketID());
-			msg.setUserNameCustomer(customer.getUserName());
+			msg.setUserNameEmployee(employee.getUserName());
 			msg.setBody(body);
 			
-			int result = cd.insertMessage(msg);
+			int result = ed.insertMessage(msg);
 			
 			if(result != 0) {
-				response.sendRedirect("/TrainApp/Session");
+				response.sendRedirect("/TrainApp/Esession");
 			} else {
 				request.setAttribute("id", ticket.getSupportTicketID());
 				request.setAttribute("username", ticket.getUserName());
 				request.setAttribute("title", ticket.getTitle());
 				request.setAttribute("body", ticket.getBody());
 				request.setAttribute("message", "Database error!");
-				request.getRequestDispatcher("/CustomerViews/supportticket.jsp").forward(request, response);
+				request.getRequestDispatcher("/EmployeeViews/supportticket.jsp").forward(request, response);
 			}
 		}
 	}

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import trainapp.employee.Employee;
+import trainapp.employee.dao.EmployeeDAO;
+import trainapp.employee.dao.EmployeeDAOimpl;
+import trainapp.forum.SupportTicket;
 
 @WebServlet("/Esession")
 public class Esession extends HttpServlet {
@@ -30,6 +33,10 @@ public class Esession extends HttpServlet {
 		request.setAttribute("LastName", employee.getLastName());
 		request.setAttribute("UserName", employee.getUserName());
 		request.setAttribute("SSN", employee.getSSN());
+		
+		EmployeeDAO ed = new EmployeeDAOimpl();
+		SupportTicket[] tickets = ed.getSupportTickets();
+		session.setAttribute("tickets", tickets);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeViews/session.jsp");
 		dispatcher.forward(request, response);

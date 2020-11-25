@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 
 import trainapp.connection.ConnectionProvider;
 import trainapp.customer.Customer;
+import trainapp.forum.Message;
 import trainapp.forum.SupportTicket;
 
 public class CustomerDAOimpl implements CustomerDAO {
@@ -146,5 +147,113 @@ public class CustomerDAOimpl implements CustomerDAO {
 		
 		return tickets;
 	}
+	
+	@Override
+	public int deleteSupportTicket(SupportTicket ticket) {
+		int status = 0;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("delete from SupportTicket where supportTicketID=?;");
+			ps.setString(1, Integer.toString(ticket.getSupportTicketID()));
 
+			status = ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
+	
+	@Override
+	public int insertSupportTicket(SupportTicket ticket) {
+		int status = 0;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("insert into SupportTicket (userName, title, body) values (?, ?, ?);");
+			ps.setString(1, ticket.getUserName());
+			ps.setString(2, ticket.getTitle());
+			ps.setString(3, ticket.getBody());
+
+			status = ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
+	
+	@Override
+	public Message[] getMessages(int supportTicketID) {
+		Message[] messages = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from SupportTicketMessage where supportTicketID=?;");
+			ps.setString(1, Integer.toString(supportTicketID));
+			
+			ResultSet rs = ps.executeQuery();
+			int messageCount = 0;
+			while(rs.next()) {
+				messageCount = rs.getInt(1);
+			}
+			
+			try {
+				messages = new Message[messageCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from SupportTicketMessage where supportTicketID=?;");
+				ps.setString(1, Integer.toString(supportTicketID));
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					Message msg = new Message();
+					msg.setMessageID(rs.getInt(1));
+					msg.setSupportTicketID(rs.getInt(2));
+					msg.setUserNameCustomer(rs.getString(3));
+					msg.setUserNameEmployee(rs.getString(4));
+					msg.setBody(rs.getString(5));
+					
+					messages[index] = msg;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		return messages;
+	}
+	
+	@Override
+	public int insertMessage(Message msg) {
+		int status = 0;
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("insert into SupportTicketMessage (supportTicketID, userNameCustomer, body) values (?, ?, ?);");
+			
+			ps.setInt(1, msg.getSupportTicketID());
+			ps.setString(2, msg.getUserNameCustomer());
+			ps.setString(3, msg.getBody());
+
+			status = ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
 }

@@ -42,7 +42,7 @@
 		</div>	
 	<%}%>
 	
-	<form class="col-lg-5" style="margin-top: 10px" action="MySupportTicket" method="post">
+	<form class="col-lg-5" style="margin-top: 10px" action="EmySupportTicket" method="post">
 	
 		<div class="card">
 		  <h5 class="card-header">Message</h5>
