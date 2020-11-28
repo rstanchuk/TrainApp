@@ -26,7 +26,7 @@
 	  	<div class="form-group">
 		    <label>Body</label>
 		    <textarea class="form-control" placeholder="Body" name="body"></textarea>
-		    <small>Only 500 characters</small>
+		    <small>Only 5000 characters</small>
 	  	</div>
 	  	<div class="row form-group">
 	  		<div class="col"><input type="submit" class="btn btn-primary" name="submit"></div>

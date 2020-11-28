@@ -49,7 +49,7 @@
 		  <p style="color:red">${message}</p>
 		  <div class="card-body">
 		    <textarea class="form-control" placeholder="Body" name="body"></textarea>
-		    <small>Only 500 characters</small>
+		    <small>Only 5000 characters</small>
 		    <div class="col"><input type="submit" class="btn btn-primary" name="submit"></div>
 		  </div>
 		</div>
