@@ -12,6 +12,7 @@ public interface CustomerDAO {
 	public SupportTicket[] getSupportTickets(String username);
 	public int deleteSupportTicket(SupportTicket ticket);
 	public int insertSupportTicket(SupportTicket ticket);
+	public SupportTicket[] searchByKeywordSupportTickets(String keyword);
 	
 	public Message[] getMessages(int supportTicketID);
 	public int insertMessage(Message msg);

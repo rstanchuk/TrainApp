@@ -23,6 +23,11 @@ create table Employee(
     lastName varchar(30)
 );
 
+create table Admin(
+	password varchar(50)
+);
+insert into Admin values ('password');
+
 create table SupportTicket(
 	supportTicketID int primary key AUTO_INCREMENT,
     userName varchar(50),

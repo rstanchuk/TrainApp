@@ -187,6 +187,52 @@ public class CustomerDAOimpl implements CustomerDAO {
 	}
 	
 	@Override
+	public SupportTicket[] searchByKeywordSupportTickets(String keyword) {
+		SupportTicket[] tickets = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from SupportTicket where title like '%" + keyword + "%';");
+			
+			ResultSet rs = ps.executeQuery();
+			int ticketCount = 0;
+			while(rs.next()) {
+				ticketCount = rs.getInt(1);
+			}
+			
+			try {
+				tickets = new SupportTicket[ticketCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from SupportTicket where title like '%" + keyword + "%';");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					SupportTicket st = new SupportTicket();
+					st.setSupportTicketID(rs.getInt(1));
+					st.setUserName(rs.getString(2));
+					st.setTitle(rs.getString(3));
+					st.setBody(rs.getString(4));
+					
+					tickets[index] = st;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		return tickets;
+	}
+	
+	@Override
 	public Message[] getMessages(int supportTicketID) {
 		Message[] messages = null;
 		try {

@@ -57,7 +57,22 @@
 				  	<%}%>
 				  </ul>
 				</div>
+				<form action="SearchSupportTicket" method="post">
+					<div class="card" style="width: 30rem;">
+					  <div class="card-header">Support Ticket Search</div>
+					  <div class="card-body">
+					  	<div class="row form-group">
+					  		<input type="text" class="form-control" placeholder="Keyword" name="keyword">
+					  	</div>
+					  	<div class="row form-group">
+					  		<input type="submit" class="btn btn-primary" name="submit" value="Search">
+					  	</div>
+					  </div>
+					</div>
+				</form>
 			</div>
+			
+			
 			
 		</div>
 

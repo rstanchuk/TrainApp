@@ -35,7 +35,7 @@ public class Elogin extends HttpServlet {
 		
 		if(userName.isBlank() || password.isBlank()) {
 			request.setAttribute("message", "All fields must be filled out!");
-			request.getRequestDispatcher("/EMployeeViews/login.jsp").forward(request, response);
+			request.getRequestDispatcher("/EmployeeViews/login.jsp").forward(request, response);
 		} else {
 			if(ed.doesEmployeeExist(userName)) {
 				Employee empl = ed.getEmployee(userName, password);
