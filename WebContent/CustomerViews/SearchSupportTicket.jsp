@@ -19,7 +19,7 @@
 	  	
 	  	<div class="col-sm-6">
 			<div class="card" style="width: 30rem;">
-			  <div class="card-header">Search Results<a href="CreateSupportTicket" class="btn btn-link">Create</a></div>
+			  <div class="card-header">Search Results</div>
 			  <ul class="list-group list-group-flush">
 			  	<% 
 			  	for(int i = 0; i < searchedTickets.length; i++) {%>

@@ -15,6 +15,7 @@ import trainapp.customer.Customer;
 import trainapp.customer.dao.CustomerDAO;
 import trainapp.customer.dao.CustomerDAOimpl;
 import trainapp.forum.SupportTicket;
+import trainapp.trainschedule.Reservation;
 
 @WebServlet("/Session")
 public class Session extends HttpServlet {
@@ -40,6 +41,9 @@ public class Session extends HttpServlet {
 		
 		SupportTicket[] tickets = cd.getSupportTickets(customer.getUserName());
 		session.setAttribute("tickets", tickets);
+		
+		Reservation[] reservations = cd.getReservations(customer.getUserName());
+		session.setAttribute("reservations", reservations);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/CustomerViews/session.jsp");
 		dispatcher.forward(request, response);

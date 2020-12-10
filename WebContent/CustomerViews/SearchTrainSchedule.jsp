@@ -9,6 +9,7 @@
 	    <%@include file="../bootstrap/bootstrap.min.css" %>
 	</style>
 	<%@ page import="trainapp.trainschedule.TrainSchedule" %>
+	<%@ page import="trainapp.trainschedule.Station" %>
 	<%@ page import="javax.servlet.http.HttpSession" %>
 	<%@ page import="trainapp.customer.dao.CustomerDAO" %>
 	<%@ page import="trainapp.customer.dao.CustomerDAOimpl" %>
@@ -22,31 +23,48 @@
 		%>
 		
 		<div class="col">
-			<div class="card" style="width: 30rem;">
-			  <div class="card-header">Search Results</div>
-			  <ul class="list-group list-group-flush">
-			  	<% 
-			  	for(int i = 0; i < searchedSchedules.length; i++) {%>
-			  		<li class="list-group-item">
-			  			<a href="/TrainApp/CustomerViews/sendSearchSchedule.jsp?index=<%= i %>" style="text-align: left" class="btn btn-link">
-			  				Transit Line: <%= searchedSchedules[i].getTransitLine() %>
-			  				<br /> 
-			  				Departure Time: <%= searchedSchedules[i].getDepTime() %>
-			  				<br /> 
-			  				Arrival Time: <%= searchedSchedules[i].getArrivalTime() %>
-			  				<br /> 
-			  				Origin Station: <%= cd.getNameOfStation(searchedSchedules[i].getOriginStation()) %>
-			  				<br /> 
-			  				Destination Station: <%= cd.getNameOfStation(searchedSchedules[i].getDesStation()) %>
-			  				<br /> 
-			  				Fare: $<%= searchedSchedules[i].getFare() %>
-			  				<br /> 
-			  				Train ID: <%= searchedSchedules[i].getTid() %>
-			  			</a>
-			  		</li>
-			  	<%}%>
-			  </ul>
-			</div>
+		<table class="table">
+		  	<thead class="thead-light">
+				<tr>
+					<th scope="col">Transit Line</th>
+					<th scope="col">Departure Time</th>
+					<th scope="col">Arrival Time</th>
+					<th scope="col">Origin Station</th>
+					<th scope="col">Origin City</th>
+					<th scope="col">Origin State</th>
+					<th scope="col">Destination Station</th>
+					<th scope="col">Destination City</th>
+					<th scope="col">Destination State</th>
+					<th scope="col">Fare</th>
+					<th scope="col">Train ID</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% 
+				for(int i = 0; i < searchedSchedules.length; i++) {
+					Station origin = cd.getStation(searchedSchedules[i].getOriginStation());
+					Station dest = cd.getStation(searchedSchedules[i].getDesStation());
+				%>
+				<tr>
+					<td>
+						<a href="/TrainApp/CustomerViews/sendSearchSchedule.jsp?index=<%= i %>" class="btn btn-link">
+							<%= searchedSchedules[i].getTransitLine() %>
+						</a>
+ 					</td>
+					<td><%= searchedSchedules[i].getDepTime() %></td>
+					<td> <%= searchedSchedules[i].getArrivalTime() %></td>
+					<td><%= origin.getName() %></td>
+					<td><%= origin.getCity() %></td>
+					<td><%= origin.getState() %></td>
+					<td><%= dest.getName() %></td>
+					<td><%= dest.getCity() %></td>
+					<td><%= dest.getState() %></td>
+					<td>$<%= searchedSchedules[i].getFare() %></td>
+					<td><%= searchedSchedules[i].getTid() %></td>
+				</tr>
+				<%}%>
+			</tbody>
+		</table>
 		</div>
 </body>
 </html>
