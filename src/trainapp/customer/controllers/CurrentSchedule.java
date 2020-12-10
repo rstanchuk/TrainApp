@@ -10,38 +10,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-import trainapp.customer.Customer;
 import trainapp.customer.dao.CustomerDAO;
 import trainapp.customer.dao.CustomerDAOimpl;
-import trainapp.forum.SupportTicket;
+import trainapp.trainschedule.Stop;
+import trainapp.trainschedule.TrainSchedule;
 
-@WebServlet("/Session")
-public class Session extends HttpServlet {
+
+@WebServlet("/CurrentSchedule")
+public class CurrentSchedule extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Session() {
+    public CurrentSchedule() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		
-		Customer customer = (Customer) session.getAttribute("Customer");
-		
-		request.setAttribute("FirstName", customer.getFirstName());
-		request.setAttribute("LastName", customer.getLastName());
-		request.setAttribute("UserName", customer.getUserName());
-		request.setAttribute("Email", customer.getEmail());
-		request.setAttribute("Discount", customer.getDiscount());
+		HttpSession sesh = request.getSession();
+		TrainSchedule schedule = (TrainSchedule)sesh.getAttribute("currentschedule");
 		
 		CustomerDAO cd = new CustomerDAOimpl();
+		Stop[] stops = cd.getStops(schedule.getTransitLine());
 		
-		SupportTicket[] tickets = cd.getSupportTickets(customer.getUserName());
-		session.setAttribute("tickets", tickets);
+		sesh.setAttribute("stops", stops);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/CustomerViews/session.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/CustomerViews/CurrentSchedule.jsp");
 		dispatcher.forward(request, response);
 	}
 

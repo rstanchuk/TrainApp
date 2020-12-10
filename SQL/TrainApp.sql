@@ -64,6 +64,7 @@ use TrainApp;
 --   state varchar(50),
 --   primary key (stationID)
 -- );
+
 -- insert into Station (stationID, name, city, state) values 
 -- (1, 'A', 'APLHA', ' NEW JERSEY'),
 -- (2, 'B', 'BETA', ' NEW JERSEY'),
@@ -85,7 +86,6 @@ use TrainApp;
 -- (18, 'R', 'HOTEL', ' NEW JERSEY'),
 -- (19, 'S', 'INDIA', ' NEW JERSEY'),
 -- (20, 'T', 'JUILET', 'NEW YORK');
-
 
 -- create table Train (
 --   tid int,
@@ -113,19 +113,6 @@ use TrainApp;
 -- ('DCB', '2020-12-01 23:00:00', '2020-12-02 01:00:00', 5, 2, 40, 3),
 -- ('JC', '2020-12-01 15:00:00', '2020-12-02 08:00:00', 10, 3, 100, 4),
 -- ('CD', '2020-12-02 12:30:00', '2020-12-02 13:30:00', 3, 4, 20, 1);
-
-
-
--- Search TrainSchedule by origin
--- select * from TrainSchedule where originStation = 1;
-
--- Search TrainSchedule by destination
--- select * from TrainSchedule where desStation = 3;
-
--- Search TrainSchedule by date of travel (depTime)
--- select * from TrainSchedule where depTime like '%2020-12-02%';
-
-
 
 -- create table Stop(
 -- 	transitLine varchar(50),

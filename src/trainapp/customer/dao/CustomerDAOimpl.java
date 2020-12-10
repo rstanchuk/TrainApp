@@ -8,6 +8,9 @@ import trainapp.connection.ConnectionProvider;
 import trainapp.customer.Customer;
 import trainapp.forum.Message;
 import trainapp.forum.SupportTicket;
+import trainapp.trainschedule.Station;
+import trainapp.trainschedule.Stop;
+import trainapp.trainschedule.TrainSchedule;
 
 public class CustomerDAOimpl implements CustomerDAO {
 	static Connection con;
@@ -301,5 +304,591 @@ public class CustomerDAOimpl implements CustomerDAO {
 		}
 		
 		return status;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainSchedulesByOriginOrderByArrival(String origin) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule ts, Station s where ts.originStation = s.stationID and s.name = ? order by ts.arrivalTime ASC;");
+			ps.setString(1, origin);
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select ts.* from TrainSchedule ts, Station s where ts.originStation = s.stationID and s.name = ? order by ts.arrivalTime ASC;");
+				ps.setString(1, origin);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByOriginOrderByDeparture(String origin) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule ts, Station s where ts.originStation = s.stationID and s.name = ? order by ts.depTime ASC;");
+			ps.setString(1, origin);
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select ts.* from TrainSchedule ts, Station s where ts.originStation = s.stationID and s.name = ? order by ts.depTime ASC;");
+				ps.setString(1, origin);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByOriginOrderByFare(String origin) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule ts, Station s where ts.originStation = s.stationID and s.name = ? order by ts.fare ASC;");
+			ps.setString(1, origin);
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select ts.* from TrainSchedule ts, Station s where ts.originStation = s.stationID and s.name = ? order by ts.fare ASC;");
+				ps.setString(1, origin);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByDestinationOrderByArrival(String destination) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule ts, Station s where ts.desStation = s.stationID and s.name = ? order by ts.arrivalTime ASC;");
+			ps.setString(1, destination );
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select ts.* from TrainSchedule ts, Station s where ts.desStation = s.stationID and s.name = ? order by ts.arrivalTime ASC;");
+				ps.setString(1, destination);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByDestinationOrderByDeparture(String destination) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule ts, Station s where ts.desStation = s.stationID and s.name = ? order by ts.depTime ASC;");
+			ps.setString(1, destination );
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select ts.* from TrainSchedule ts, Station s where ts.desStation = s.stationID and s.name = ? order by ts.depTime ASC;");
+				ps.setString(1, destination);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByDestinationOrderByFare(String destination) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule ts, Station s where ts.desStation = s.stationID and s.name = ? order by ts.fare ASC;");
+			ps.setString(1, destination );
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select ts.* from TrainSchedule ts, Station s where ts.desStation = s.stationID and s.name = ? order by ts.fare ASC;");
+				ps.setString(1, destination);
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByDateOrderByArrival(String date) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule where depTime like '%" + date + "%' order by arrivalTime ASC;");
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from TrainSchedule where depTime like '%" + date + "%' order by arrivalTime ASC;");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByDateOrderByDeparture(String date) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule where depTime like '%" + date + "%' order by depTime ASC;");
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from TrainSchedule where depTime like '%" + date + "%' order by depTime ASC;");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainScheduleByDateOrderByFare(String date) {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule where depTime like '%" + date + "%' order by fare ASC;");
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from TrainSchedule where depTime like '%" + date + "%' order by fare ASC;");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public String getNameOfStation(int id) {
+		String name = null;
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select name from Station where stationID = ?;");
+			ps.setString(1, Integer.toString(id));
+
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				name = rs.getString(1);
+			}
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return name;
+	}
+
+	@Override
+	public TrainSchedule[] getTrainSchedules() {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule order by depTime ASC;");
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from TrainSchedule order by depTime ASC;");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public Stop[] getStops(String transitLine) {
+		Stop[] stops = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from Stop where transitLine = ?;");
+			ps.setString(1, transitLine);
+			
+			ResultSet rs = ps.executeQuery();
+			int stopCount = 0;
+			while(rs.next()) {
+				stopCount = rs.getInt(1);
+			}
+			
+			try {
+				stops = new Stop[stopCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from Stop where transitLine = ?;");
+				ps.setString(1, transitLine);
+				
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					Stop st = new Stop();
+					st.setTransitLine(rs.getString(1));
+					st.setStationID(rs.getInt(2));
+					st.setDepartTime(rs.getString(3));
+					st.setArrivalTime(rs.getString(4));
+
+					stops[index] = st;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return stops;
+	}
+
+	@Override
+	public Station getStation(int stationID) {
+		Station s = new Station();
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select * from Station where stationID = ?;");
+			ps.setString(1, Integer.toString(stationID));
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				s.setStationID(rs.getInt(1));
+				s.setName(rs.getString(2));
+				s.setCity(rs.getString(3));
+				s.setState(rs.getString(4));
+			}
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return s;
 	}
 }

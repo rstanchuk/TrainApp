@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 	<title>TrainApp</title>
-	<%@ page import="trainapp.forum.SupportTicket" %>
+	<%@ page import="trainapp.trainschedule.TrainSchedule" %>
 	<%@ page import="javax.servlet.http.HttpSession" %>
 </head>
 <body>
@@ -14,10 +14,10 @@
 		int index = Integer.parseInt(indexStr);
 		
 		HttpSession sesh = request.getSession();
-		SupportTicket[] tickets = (SupportTicket[])sesh.getAttribute("searchedTickets");
+		TrainSchedule[] schedules = (TrainSchedule[])sesh.getAttribute("searchSchedule");
 		
-		sesh.setAttribute("ticket", tickets[index]);
-		response.sendRedirect("/TrainApp/MySupportTicket");
+		sesh.setAttribute("currentschedule", schedules[index]);
+		response.sendRedirect("/TrainApp/CurrentSchedule");
 	%>
 </body>
 </html>
