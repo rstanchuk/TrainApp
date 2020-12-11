@@ -8,6 +8,7 @@ import trainapp.connection.ConnectionProvider;
 import trainapp.employee.Employee;
 import trainapp.forum.Message;
 import trainapp.forum.SupportTicket;
+import trainapp.trainschedule.TrainSchedule;
 
 public class EmployeeDAOimpl implements EmployeeDAO {
 	static Connection con;
@@ -208,4 +209,120 @@ public class EmployeeDAOimpl implements EmployeeDAO {
 		
 		return status;
 	}
+	
+	@Override
+	public TrainSchedule[] getTrainSchedules() {
+		TrainSchedule[] schedules = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*) from TrainSchedule order by depTime ASC;");
+			
+			ResultSet rs = ps.executeQuery();
+			int scheduleCount = 0;
+			while(rs.next()) {
+				scheduleCount = rs.getInt(1);
+			}
+			
+			try {
+				schedules = new TrainSchedule[scheduleCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select * from TrainSchedule order by depTime ASC;");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					TrainSchedule ts = new TrainSchedule();
+					ts.setTransitLine(rs.getString(1));
+					ts.setDepTime(rs.getString(2));
+					ts.setArrivalTime(rs.getString(3));
+					ts.setOriginStation(rs.getInt(4));
+					ts.setDesStation(rs.getInt(5));
+					ts.setFare(rs.getFloat(6));
+					ts.setTid(rs.getInt(7));
+
+					schedules[index] = ts;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return schedules;
+	}
+
+	@Override
+	public int updateTrainSchedule(String transitLine, String departureTime, String arrivalTime, int originStationID, int destinationStationID, float fare, int trainID) {
+		int status = 0;
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("update TrainSchedule\n"
+					+ "set depTime = '" + departureTime + "', \n"
+					+ "arrivalTime = '" + arrivalTime + "', \n"
+					+ "originStation = "+ originStationID +", \n"
+					+ "desStation = "+ destinationStationID +", \n"
+					+ "fare = "+fare+", \n"
+					+ "tid = "+trainID+"\n"
+					+ "where transitLine = '"+transitLine+"';");
+			status = ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
+
+	@Override
+	public int updateStop(String transitLine, int stopID, String arrivalTime, String departureTime) {
+		int status = 0;
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("update Stop\n"
+					+ "set departTime = '"+departureTime+"',\n"
+					+ "arrivalTime = '"+arrivalTime+"'\n"
+					+ "where stationID = "+stopID+" \n"
+					+ "and transitLine = '"+transitLine+"';");
+			
+			status = ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
+
+	@Override
+	public int deleteStop(int stopID, String transitLine) {
+		int status = 0;
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("delete from Stop\n"
+					+ "where stationID = "+stopID+" \n"
+					+ "and \n"
+					+ "transitLine = '"+transitLine+"';");
+			
+			status = ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
+
 }

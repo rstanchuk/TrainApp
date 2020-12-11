@@ -14,6 +14,7 @@ import trainapp.employee.Employee;
 import trainapp.employee.dao.EmployeeDAO;
 import trainapp.employee.dao.EmployeeDAOimpl;
 import trainapp.forum.SupportTicket;
+import trainapp.trainschedule.TrainSchedule;
 
 @WebServlet("/Esession")
 public class Esession extends HttpServlet {
@@ -37,6 +38,9 @@ public class Esession extends HttpServlet {
 		EmployeeDAO ed = new EmployeeDAOimpl();
 		SupportTicket[] tickets = ed.getSupportTickets();
 		session.setAttribute("tickets", tickets);
+		
+		TrainSchedule[] schedules = ed.getTrainSchedules();
+		session.setAttribute("schedules", schedules);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeViews/session.jsp");
 		dispatcher.forward(request, response);
