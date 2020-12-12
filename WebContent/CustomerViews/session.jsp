@@ -23,8 +23,10 @@
 			CustomerDAO cd = new CustomerDAOimpl();
 			Station[] stations = cd.getStations();
 		%>
+
 		
 		<div class="row">
+		
 			<div class="col-sm-6">
 				<div class="card">
 				  <div class="card-header">
@@ -49,42 +51,10 @@
 				  	</div>
 				  </div>
 				</div>
-			</div>
-			
-			<div class="col-sm-6">
-				<div class="card" style="width: 30rem;">
-				  <div class="card-header">Your Support Tickets<a href="CreateSupportTicket" class="btn btn-link">Create</a></div>
-				  <ul class="list-group list-group-flush">
-				  	<% 
-				  	for(int i = 0; i < tickets.length; i++) {%>
-				  		<li class="list-group-item">
-				  			<a href="/TrainApp/CustomerViews/sendTicket.jsp?index=<%= i %>" class="btn btn-link"><%= tickets[i].getTitle() %></a>
-				  			<a href="/TrainApp/CustomerViews/deleteTicket.jsp?index=<%= i %>" type="button" class="btn btn-danger">Delete</a>
-				  		</li>
-				  	<%}%>
-				  </ul>
-				</div>
-				<form action="SearchSupportTicket" method="post">
-					<div class="card" style="width: 30rem;">
-					  <div class="card-header">Support Ticket Search</div>
-					  <div class="card-body">
-					  	<div class="row form-group">
-					  		<input type="text" class="form-control" placeholder="Keyword" name="keyword">
-					  	</div>
-					  	<input type="submit" class="btn btn-primary" name="submit" value="Search">
-					  </div>
-					</div>
-				</form>
-			</div>
-		</div>
-		
-		
-		<div class="row">
-			<!-- Search -->
-			<div class="col-sm-6">
-				<div class="card" >
-		  		<div class="card-header">Search Train Schedules</div>
-				<form action="SearchTrainSchedule" method="post">
+				
+				<div class="card" style="margin-top: 10px">
+			  		<div class="card-header">Search Train Schedules</div>
+					<form action="SearchTrainSchedule" method="post">
 					<div class="form-group">
 						<p style="color: red">${error }</p>
 						<br/>
@@ -114,12 +84,36 @@
 						</select>
 					</div>
 					<button type="submit" class="btn btn-primary" style="margin-bottom: 20px">Search</button>
-				</form>
+					</form>
 				</div>
+				
 			</div>
-			<!-- Search -->
-			
+		
 			<div class="col-sm-6">
+				<div class="card" style="width: 30rem;">
+				  <div class="card-header">Your Support Tickets<a href="CreateSupportTicket" class="btn btn-link">Create</a></div>
+				  <ul class="list-group list-group-flush">
+				  	<% 
+				  	for(int i = 0; i < tickets.length; i++) {%>
+				  		<li class="list-group-item">
+				  			<a href="/TrainApp/CustomerViews/sendTicket.jsp?index=<%= i %>" class="btn btn-link"><%= tickets[i].getTitle() %></a>
+				  			<a href="/TrainApp/CustomerViews/deleteTicket.jsp?index=<%= i %>" type="button" class="btn btn-danger">Delete</a>
+				  		</li>
+				  	<%}%>
+				  </ul>
+				</div>
+				<form action="SearchSupportTicket" method="post">
+					<div class="card" style="width: 30rem;">
+					  <div class="card-header">Support Ticket Search</div>
+					  <div class="card-body" style="height: 120px">
+					  	<div class="row form-group">
+					  		<input type="text" class="form-control" placeholder="Keyword" name="keyword">
+					  	</div>
+					  	<input type="submit" class="btn btn-primary" name="submit" value="Search">
+					  </div>
+					</div>
+				</form>
+				
 				<div class="card" style="width: 30rem;">
 				  <div class="card-header">Your Past Reservations</div>
 				  <ul class="list-group list-group-flush">

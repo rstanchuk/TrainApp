@@ -49,7 +49,7 @@ public class Elogin extends HttpServlet {
 				}
 			} else {
 				request.setAttribute("message", "User doesn't exist!");
-				request.getRequestDispatcher("/CustomerViews/login.jsp").forward(request, response);
+				request.getRequestDispatcher("/EmployeeViews/login.jsp").forward(request, response);
 			}
 		}
 	}

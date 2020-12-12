@@ -10,11 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import trainapp.customer.dao.CustomerDAO;
-import trainapp.customer.dao.CustomerDAOimpl;
 import trainapp.employee.dao.EmployeeDAO;
 import trainapp.employee.dao.EmployeeDAOimpl;
-import trainapp.trainschedule.TrainSchedule;
 
 @WebServlet("/ETrainScheduleEdit")
 public class ETrainScheduleEdit extends HttpServlet {

@@ -30,7 +30,7 @@
 	  	</div>
 	</form>
 	<div style="margin-top: 20px; text-align: center"><a href="AdminLogin" class="btn btn-link">Admin</a></div>
-	<div style="margin-top: 20px; text-align: center"><a href="Login" class="btn btn-link">Customer Site</a></div>
+	<div style="text-align: center"><a href="Login" class="btn btn-link">Customer Site</a></div>
 
 </body>
 </html>

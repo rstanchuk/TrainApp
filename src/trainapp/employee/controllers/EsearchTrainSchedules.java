@@ -10,46 +10,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import trainapp.customer.dao.CustomerDAO;
-import trainapp.customer.dao.CustomerDAOimpl;
-import trainapp.employee.Employee;
 import trainapp.employee.dao.EmployeeDAO;
 import trainapp.employee.dao.EmployeeDAOimpl;
-import trainapp.forum.SupportTicket;
-import trainapp.trainschedule.Station;
 import trainapp.trainschedule.TrainSchedule;
 
-@WebServlet("/Esession")
-public class Esession extends HttpServlet {
+@WebServlet("/EsearchTrainSchedules")
+public class EsearchTrainSchedules extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Esession() {
+    public EsearchTrainSchedules() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
-		Employee employee = (Employee) session.getAttribute("Employee");
-		
-		request.setAttribute("FirstName", employee.getFirstName());
-		request.setAttribute("LastName", employee.getLastName());
-		request.setAttribute("UserName", employee.getUserName());
-		request.setAttribute("SSN", employee.getSSN());
-		
 		EmployeeDAO ed = new EmployeeDAOimpl();
-		SupportTicket[] tickets = ed.getSupportTickets();
-		session.setAttribute("tickets", tickets);
 		
-		TrainSchedule[] schedules = ed.getTrainSchedules();
-		session.setAttribute("schedules", schedules);
+		int stationID = Integer.parseInt(request.getParameter("stationID"));
+		String location = request.getParameter("location");
+
+		if(location.equals("origin")) {
+			TrainSchedule[] searchedSchedules = ed.getTrainSchedulesByOrigin(stationID);
+			session.setAttribute("searchedSchedules", searchedSchedules);
+			
+		} else if(location.equals("destination")) {
+			TrainSchedule[] searchedSchedules = ed.getTrainSchedulesByDestination(stationID);
+			session.setAttribute("searchedSchedules", searchedSchedules);
+			
+		} else if(location.equals("all")) {
+			TrainSchedule[] searchedSchedules = ed.getTrainSchedulesAll(stationID);
+			session.setAttribute("searchedSchedules", searchedSchedules);
+		}
 		
-		CustomerDAO cd = new CustomerDAOimpl();
-		Station[] stations = cd.getStations();
-		session.setAttribute("stations", stations);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeViews/session.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/EmployeeViews/EsearchTrainSchedules.jsp");
 		dispatcher.forward(request, response);
 	}
 

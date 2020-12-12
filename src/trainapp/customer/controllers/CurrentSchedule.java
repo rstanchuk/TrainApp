@@ -97,7 +97,7 @@ public class CurrentSchedule extends HttpServlet {
 				String arrivalTime = null;
 				for(int i = 0; i < stops.length; i++) {
 					if(stops[i].getStationID() == destNum) {
-						departureTime = stops[i].getArrivalTime();
+						arrivalTime = stops[i].getArrivalTime();
 					}
 				}
 				boolean roundTrip = false;
