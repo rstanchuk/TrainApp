@@ -98,4 +98,53 @@ public class AdminDAOimpl implements AdminDAO {
 		return status;
 	}
 
+	@Override
+	public Employee[] getEmployees() {
+		Employee[] employees = null;
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("select count(*)\n"
+					+ "from Employee;");
+			
+			ResultSet rs = ps.executeQuery();
+			int employeeCount = 0;
+			while(rs.next()) {
+				employeeCount = rs.getInt(1);
+			}
+			
+			try {
+				employees = new Employee[employeeCount];
+				int index = 0;
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("select *\n"
+						+ "from Employee;");
+
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					Employee empl = new Employee();
+					empl.setSSN(rs.getString(1));
+					empl.setUserName(rs.getString(2));
+					empl.setPassword(rs.getString(3));
+					empl.setFirstName(rs.getString(4));
+					empl.setLastName(rs.getString(5));
+					
+					employees[index] = empl;
+					index++;
+				}
+				con.close();
+				
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			con.close();
+			
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		
+		return employees;
+	}
+
 }

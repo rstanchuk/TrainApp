@@ -8,4 +8,6 @@ public interface AdminDAO {
 	public int updateEmployee(String userName, String firstName, String lastName);
 	public int insertEmployee(Employee empl);
 	public int deleteEmployee(Employee empl);
+	public Employee[] getEmployees();
+	
 }
