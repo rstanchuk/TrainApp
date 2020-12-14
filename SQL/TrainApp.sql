@@ -27,6 +27,13 @@ use TrainApp;
 --     firstName varchar(30),
 --     lastName varchar(30)
 -- );
+-- update Employee
+-- set firstName = 'edvdsrvdfs', 
+-- lastName = 'adsfvds'
+-- where userName = 'employee1';
+
+delete from Employee where userName = 'employee1';
+
 -- insert Employee values
 -- ('123-45-6789', 'employee1', '123abc', 'name', 'name'),
 -- ('123-45-6789', 'employee2', '123abc', 'name', 'name');
