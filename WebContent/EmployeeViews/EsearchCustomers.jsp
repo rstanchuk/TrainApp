@@ -26,15 +26,17 @@
 					<th scope="col">Reservation ID</th>
 				</tr>
 			</thead>
+			<% for(int i = 0; i < reports.length; i++) { %>
 			<tbody>
-				<% for(int i = 0; i < reports.length; i++) { %>
+				
 					<td><%= reports[i].getUserName() %></td>
 					<td><%= reports[i].getFirstName() %></td>
 					<td> <%= reports[i].getLastName() %></td>
 					<td><%= reports[i].getDepartureTime() %></td>
 					<td><%= reports[i].getReservationID() %></td>
-				<%} %>
+				
 			</tbody>
+			<%} %>
 		</table>
 </body>
 </html>

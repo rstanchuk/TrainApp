@@ -70,6 +70,7 @@ public class CurrentSchedule extends HttpServlet {
 				float pricePerStop = fare / (float)numOfStopsOnTransit;
 				
 				int numOfStops = destNum - originNum;
+				numOfStops = Math.abs(numOfStops);
 				if(numOfStops == 0) {
 					numOfStops = 1;
 				}

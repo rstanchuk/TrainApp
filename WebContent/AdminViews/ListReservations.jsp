@@ -40,7 +40,7 @@
 					<td><%= reservations[i].getDepartureTime() %></td>
 					<td><%= reservations[i].getArrivalTime() %></td>
 					<td><%= reservations[i].isRoundTrip() %></td>
-					<td><%= reservations[i].getPrice() %></td>
+					<td>$<%= reservations[i].getPrice() %></td>
 				</tr>
 				<%} %>
 			</tbody>

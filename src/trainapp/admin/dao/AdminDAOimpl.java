@@ -158,8 +158,9 @@ public class AdminDAOimpl implements AdminDAO {
 			con = ConnectionProvider.getCon();
 			ps = con.prepareStatement("select count(*)\n"
 					+ "from (select transitLine, sum(price)\n"
-					+ "		from Reservation\n"
-					+ "		where departureTime like '%"+date+"%') t;");
+					+ "from Reservation\n"
+					+ "where departureTime like '%"+date+"%'\n"
+					+ "group by transitLine) t;");
 			
 			ResultSet rs = ps.executeQuery();
 			int reportCount = 0;
@@ -173,7 +174,8 @@ public class AdminDAOimpl implements AdminDAO {
 				con = ConnectionProvider.getCon();
 				ps = con.prepareStatement("select transitLine, sum(price)\n"
 						+ "from Reservation\n"
-						+ "where departureTime like '%"+date+"%';");
+						+ "where departureTime like '%"+date+"%'\n"
+						+ "group by transitLine;");
 
 				rs = ps.executeQuery();
 				while(rs.next()) {
