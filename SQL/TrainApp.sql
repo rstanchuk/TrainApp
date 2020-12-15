@@ -3,9 +3,6 @@
 
 use TrainApp;
 
-select count(*)
-from Employee;
-
 -- -- User account tables
 
 -- create table Customer (
@@ -30,7 +27,6 @@ from Employee;
 --     firstName varchar(30),
 --     lastName varchar(30)
 -- );
-
 -- insert Employee values
 -- ('123-45-6789', 'employee1', '123abc', 'name', 'name'),
 -- ('123-45-6789', 'employee2', '123abc', 'name', 'name');
@@ -162,3 +158,14 @@ from Employee;
 --     foreign key (userName) references Customer (userName),
 --     foreign key (transitLine) references TrainSchedule (transitLine)
 -- );
+
+-- select * from Reservation where transitLine = 'AB';
+
+-- select c.userName, c.firstName, c.lastName, sum(r.price)
+-- from Reservation r, Customer c
+-- where r.userName = c.userName;
+
+select transitLine, count(*)
+from Reservation
+group by transitLine;
+

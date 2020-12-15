@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import trainapp.admin.dao.AdminDAO;
+import trainapp.admin.dao.AdminDAOimpl;
+import trainapp.employee.Employee;
+
 
 @WebServlet("/Asession")
 public class Asession extends HttpServlet {
@@ -22,6 +26,10 @@ public class Asession extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		AdminDAO ad = new AdminDAOimpl();
+		
+		Employee[] employees = ad.getEmployees();
+		session.setAttribute("employees", employees);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminViews/session.jsp");
 		dispatcher.forward(request, response);
