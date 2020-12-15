@@ -28,11 +28,11 @@
 		    <input type="password" class="form-control" placeholder="Password" name="password">
 	  	</div>
 	  	<div class="form-group">
-		    <label>FirstName</label>
+		    <label>First Name</label>
 		    <input type="text" class="form-control" placeholder="FirstName" name="firstName">
 	  	</div>
 	  	<div class="form-group">
-		    <label>LastName</label>
+		    <label>Last Name</label>
 		    <input type="text" class="form-control" placeholder="LastName" name="lastName">
 	  	</div>
 

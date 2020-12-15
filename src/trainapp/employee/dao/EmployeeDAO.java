@@ -26,4 +26,6 @@ public interface EmployeeDAO {
 	public TrainSchedule[] getTrainSchedulesAll(int stationID);
 	
 	public CustomerReport[] getCustomerReports(String transitLine, String date);
+	
+	public int deleteTrainSchedule(TrainSchedule ts);
 }

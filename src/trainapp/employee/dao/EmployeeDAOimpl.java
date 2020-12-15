@@ -536,4 +536,33 @@ public class EmployeeDAOimpl implements EmployeeDAO {
 		return reports;
 	}
 
+	@Override
+	public int deleteTrainSchedule(TrainSchedule ts) {
+		int status = 0;
+		
+		try {
+			con = ConnectionProvider.getCon();
+			ps = con.prepareStatement("delete from Stop\n"
+					+ "where transitLine = '"+ts.getTransitLine()+"';");
+
+			status = ps.executeUpdate();
+			
+			con.close();
+			try {
+				con = ConnectionProvider.getCon();
+				ps = con.prepareStatement("delete from TrainSchedule where transitLine = '"+ts.getTransitLine()+"';");
+
+				status = ps.executeUpdate();
+				
+				con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return status;
+	}
+
 }

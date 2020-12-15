@@ -8,52 +8,45 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import trainapp.admin.dao.AdminDAO;
 import trainapp.admin.dao.AdminDAOimpl;
 import trainapp.employee.Employee;
 
-
-@WebServlet("/AddEmployee")
-public class AddEmployee extends HttpServlet {
+@WebServlet("/EditEmployee")
+public class EditEmployee extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	
-    public AddEmployee() {
+       
+    public EditEmployee() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminViews/AddEmployee.jsp");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminViews/EditEmployee.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		AdminDAO ad = new AdminDAOimpl();
-		String ssn = request.getParameter("ssn");
-		String userName = request.getParameter("userName");
-		String password = request.getParameter("password");
+		
+		Employee empl = (Employee)session.getAttribute("employee");
+		
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		
-		if(ssn.isBlank() || userName.isBlank() || password.isBlank() || firstName.isBlank() || lastName.isBlank()) {
+		if(firstName.isBlank() || lastName.isBlank()) {
 			request.setAttribute("error", "All fields must be filled out!");
-			request.getRequestDispatcher("/AdminViews/AddEmployee.jsp").forward(request, response);
+			request.getRequestDispatcher("/AdminViews/EditEmployee.jsp").forward(request, response);
 		} else {
-			Employee empl = new Employee();
-			empl.setSSN(ssn);
-			empl.setUserName(userName);
-			empl.setPassword(password);
-			empl.setFirstName(firstName);
-			empl.setLastName(lastName);
-			
-			int status = ad.insertEmployee(empl);
+			int status = ad.updateEmployee(empl.getUserName(), firstName, lastName);
 			if(status != 0) {
 				response.sendRedirect("/TrainApp/Asession");
 			} else {
 				request.setAttribute("error", "Database Error!");
-				request.getRequestDispatcher("/AdminViews/AddEmployee.jsp").forward(request, response);
+				request.getRequestDispatcher("/AdminViews/EditEmployee.jsp").forward(request, response);
 			}
 		}
 	}

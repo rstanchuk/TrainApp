@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import trainapp.admin.dao.AdminDAO;
 import trainapp.admin.dao.AdminDAOimpl;
 import trainapp.employee.Employee;
+import trainapp.trainschedule.CustomerRevenueReport;
+import trainapp.trainschedule.TransitLine;
 
 
 @WebServlet("/Asession")
@@ -30,6 +32,12 @@ public class Asession extends HttpServlet {
 		
 		Employee[] employees = ad.getEmployees();
 		session.setAttribute("employees", employees);
+		
+		CustomerRevenueReport bestCustomer = ad.getBestCustomer();
+		session.setAttribute("bestCustomer", bestCustomer);
+		
+		TransitLine[] lines = ad.getBestTransitLines();
+		session.setAttribute("bestTransitLines", lines);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminViews/session.jsp");
 		dispatcher.forward(request, response);

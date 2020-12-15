@@ -52,6 +52,7 @@
 			  	for(int i = 0; i < schedules.length; i++) {%>
 			  		<li class="list-group-item">
 			  			<a href="/TrainApp/EmployeeViews/sendScheduleToEdit.jsp?index=<%= i %>" class="btn btn-link"><%= schedules[i].getTransitLine() %></a>
+			  			<a href="/TrainApp/EmployeeViews/deleteSchedule.jsp?index=<%= i %>" type="button" class="btn btn-danger">Delete</a>
 			  		</li>
 			  	<%}%>
 			  </ul>
@@ -90,9 +91,15 @@
 				    <div class="mb-3">
 				      <label class="form-label">Select Transit Line</label>
 				      <select class="form-select" name="transitLine">
-				      	<% for(int i = 0; i < schedules.length; i++) { %>
+				      	<%
+				      	String transitLine = null;
+				      	for(int i = 0; i < schedules.length; i++) { 
+				      		if(!(schedules[i].getTransitLine()).equals(transitLine)) {
+				      	%>
 				        	<option value="<%= schedules[i].getTransitLine()%>"><%= schedules[i].getTransitLine() %></option>
-				        <%} %>
+				        <%
+				        transitLine = schedules[i].getTransitLine();
+				      		}} %>
 				      </select>
 				    </div>
 				    <div class="mb-3">
